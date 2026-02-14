@@ -44,18 +44,20 @@ New-NetNat -Name "GF-Lab-NAT" -InternalIPInterfaceAddressPrefix 192.168.2.0/24
 
 * **Active Directory:** Enabled and server promoted to a Domain Controller.
 
-<img width="1768" height="838" alt="Screenshot 2025-11-13 164251" src="https://github.com/user-attachments/assets/abaf4625-fadc-4234-90fe-0e6e25f7e075" />
+<img width="1050" height="753" alt="Screenshot 2026-02-14 132152" src="https://github.com/user-attachments/assets/6408c9b4-bfb3-4789-bf25-654a04ded478" />
 
 
 * **DNS Server:** Enabled with Forward and Reverse Lookup Zones. Hostname and IP confirmed resolving.
 
-<img width="1220" height="566" alt="Screenshot 2025-11-13 171625" src="https://github.com/user-attachments/assets/b008c3e0-2eaf-4a31-bdfe-9b10944bced5" />
+
+<img width="750" height="536" alt="Screenshot 2026-02-14 132644" src="https://github.com/user-attachments/assets/f5bfdd08-29e6-46bc-99af-88201fc596f9" />
 
 
 * **DHCP Server:** Enabled.
     * **Scope Range:** `192.168.2.4` to `192.168.2.10`.
 
-<img width="1903" height="1023" alt="Screenshot 2025-11-13 165722" src="https://github.com/user-attachments/assets/fbd07250-7980-4493-a55d-6aef02075493" />
+
+<img width="955" height="469" alt="Screenshot 2026-02-14 133338" src="https://github.com/user-attachments/assets/189e0612-9fc7-4077-a5b5-5754adb85635" />
 
   
 
