@@ -3,7 +3,10 @@
 
 ## 🧩 Virtual Machine (VM) and Network Setup
 
-To simulate the customer’s IT environment for the PracticeSuite Pro deployment, I built a dedicated virtual lab using Hyper‑V on my host PC. This provides a controlled setup where I can test the full installation and configuration process end‑to‑end. For this Demonstration a fake Accountancy company was created called GreenfieldAccountancyLtd along with two created Staff Members John and Jane Smith.
+To simulate the customer’s IT environment for the PracticeSuite Pro deployment, I built a dedicated virtual lab using Hyper‑V on my host PC. This provides a controlled setup where I can test the full installation and configuration process end‑to‑end. 
+
+A fictional organisation, GreenfieldAccountancyLtd, was created to represent a typical accountancy firm. Two standard user accounts (John Smith and Jane Smith) were added to simulate real staff identities throughout the onboarding process.
+
 
 ---
 
@@ -249,3 +252,102 @@ This section confirms the successful automatic enrollment of the client devices 
 
 
 ---
+
+### **13. SQL Server Host Preparation (GF‑SQL01)** 🗄️✨
+
+Before deploying the dedicated SQL Server host, the network addressing scheme was updated to support the expansion of the environment. The original design reserved only a small number of static IP addresses (192.168.2.1–192.168.2.3), as the initial scope included just the Domain Controller and Deployment Server. With the introduction of additional server roles—specifically a dedicated SQL Server instance—the static range was expanded to ensure a clean, contiguous block for infrastructure components.
+To accommodate this change, the DHCP scope was recreated to begin at 192.168.2.10, reserving 192.168.2.1–192.168.2.10 exclusively for static server assignments. Existing DHCP leases were cleared so that domain‑joined clients could obtain new addresses within the updated range.
+Updated Client Addressing:
+- GF-WINCLIENT1 now receives 192.168.2.10
+- GF-WINCLIENT2 now receives 192.168.2.11
+
+This adjustment mirrors real‑world environments where IP planning evolves as infrastructure grows, ensuring a clear separation between static and dynamic addressing while maintaining a scalable and professional network layout.
+With the network foundation updated, the next step is to provision GF‑SQL01, the dedicated database server that will host the SQL Server instance required for backend application support.
+
+Once the operating system installation was completed, GF-SQL01 was assigned its static IP address (192.168.2.4) and successfully joined to the GreenfieldAccountancyLtd.com domain. This ensured the server was fully integrated into the environment and ready for SQL Server deployment. 🔧
+
+<img width="589" height="426" alt="Screenshot 2026-02-15 093202" src="https://github.com/user-attachments/assets/ed13f31f-3e9e-47e8-99aa-7fa9154272a8" />
+
+<img width="1416" height="448" alt="Screenshot 2026-02-15 093555" src="https://github.com/user-attachments/assets/15d18885-4f96-4e8c-8f50-5dd40ace6949" />
+
+<img width="1131" height="224" alt="Screenshot 2026-02-15 094402" src="https://github.com/user-attachments/assets/8358c8e9-ade1-4c00-bbb8-22cdf7d02884" />
+
+-----
+
+### 14. SQL Server 2022 Installation on GF‑SQL01 🗄️⚙️
+With GF‑SQL01 fully joined to the domain and network addressing finalized, the next step was to deploy SQL Server 2022. This server will host the backend database required for the Greenfield Accountancy application stack, so the installation was performed using a clean, minimal, and production‑aligned configuration.
+
+**Launching SQL Server Installation Center:**
+I began by launching the SQL Server 2022 Installation Center and selecting New SQL Server stand‑alone installation.
+This opened the SQL setup workflow and initiated the standard rule checks.
+
+**Edition Selection:**
+For this environment, I selected the Developer Edition.
+This edition includes the full SQL feature set and is appropriate for non‑production lab environments while still mirroring enterprise deployments.
+
+**Feature Selection:**
+Only the required components were installed to keep the SQL footprint clean and aligned with real‑world onboarding practices:
+- Database Engine Services
+- SQL Server Browser (installed automatically)
+No additional services such as Analysis Services, Integration Services, or PolyBase were required for this deployment.
+
+**Instance Configuration:**
+GF‑SQL01 hosts a single SQL instance, so I deployed SQL Server as a Default Instance (MSSQLSERVER).
+This simplifies management and avoids unnecessary complexity in connection strings.
+
+**Server Configuration:**
+All SQL services were left on their recommended default service accounts, following Microsoft best practices:
+- SQL Server Database Engine → NT Service\MSSQLSERVER
+- SQL Server Agent → NT Service\SQLSERVERAGENT
+- SQL Server Browser → NT AUTHORITY\LOCAL SERVICE
+I also enabled:
+- Grant Perform Volume Maintenance Tasks privilege
+This enables Instant File Initialization (IFI), improving performance during database creation, growth, and restores.
+
+**Database Engine Configuration:**
+The Database Engine was configured using a secure and flexible authentication model:
+Authentication Mode
+- Mixed Mode (Windows + SQL authentication)
+SA Account
+- A strong SA password was set for administrative fallback.
+SQL Administrators
+- My domain admin account was added as a SQL administrator.
+This ensures full access via Windows Authentication and aligns with enterprise onboarding workflows.
+
+
+**Installation Completion:**
+SQL Server 2022 installed successfully with all selected features.
+The summary screen confirmed a clean deployment with no warnings or failed components.
+
+<img width="812" height="711" alt="Screenshot 2026-02-15 101507" src="https://github.com/user-attachments/assets/ace5d14f-6eb3-4ab7-98b7-6ec4d554ae28" />
+
+
+### 15. Installing SQL Server Management Studio (SSMS) 🖥️📊
+SQL Server Management Studio (SSMS) was installed using the Visual Studio Installer, which now distributes SSMS 22. This ensures the latest version is deployed with full SQL 2022 compatibility.
+
+<img width="1287" height="716" alt="Screenshot 2026-02-15 102115" src="https://github.com/user-attachments/assets/5950acc1-7acb-4426-bffd-7f0f40a7c9f3" />
+
+Once installed, SSMS was launched to perform the initial connection to the SQL instance.
+
+### 16. First Connection to SQL Server 🔐
+When connecting to GF‑SQL01 for the first time, SQL Server enforced encrypted connections by default.
+Because the server uses a self‑signed certificate, SSMS required:
+- Trust server certificate → enabled
+This behaviour is expected in internal lab environments.
+
+<img width="1287" height="716" alt="Screenshot 2026-02-15 102115" src="https://github.com/user-attachments/assets/c64f0299-de5e-41a6-b4ba-95d53a1b42d5" />
+
+After enabling certificate trust and signing in using my domain admin account, the connection succeeded.
+
+### 17. Successful SQL Server Connection 🎉
+Once authenticated, the SQL instance appeared in Object Explorer, confirming:
+- SQL Server 2022 is running
+- The instance is reachable
+- Domain authentication is functioning
+- SSMS is correctly installed and configured
+
+<img width="1893" height="1005" alt="Screenshot 2026-02-15 103052" src="https://github.com/user-attachments/assets/f79614f6-d7bf-45ab-a588-5034a94f12c6" />
+
+This completes the SQL Server installation and initial configuration phase. GF‑SQL01 is now fully prepared to host the Greenfield Accountancy application database.
+
+
