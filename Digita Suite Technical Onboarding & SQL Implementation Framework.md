@@ -1,9 +1,9 @@
-## 🚀 Enterprise SQL Deployment & Digita Suite Onboarding Framework With Environment Setup 🚀
+## 🚀 Enterprise SQL Deployment & Digita Suite Onboarding Framework With Hybrid Environment Setup 🚀
 
 
 ## 🧩 Virtual Machine (VM) and Network Setup
 
-To simulate the customer’s IT environment for the PracticeSuite Pro deployment, I built a dedicated virtual lab using Hyper‑V on my host PC. This provides a controlled setup where I can test the full installation and configuration process end‑to‑end.
+To simulate the customer’s IT environment for the PracticeSuite Pro deployment, I built a dedicated virtual lab using Hyper‑V on my host PC. This provides a controlled setup where I can test the full installation and configuration process end‑to‑end. For this Demonstration a fake Accountancy company was created called GreenfieldAccountancyLtd along with two created Staff Members John and Jane Smith.
 
 ---
 
@@ -199,10 +199,53 @@ The Entra Connect configuration was extended to enable **Hybrid Entra ID Join (H
 Settings were configured in the cloud to allow enrollment.
 
 * **MDM User Scope:** Configured in the Microsoft Entra admin center under **Mobility (MDM and MAM)** to set the **MDM User Scope** to **"All"**, ensuring all licensed users can auto-enroll.
-* **Licensing:** An **Enterprise Mobility + Security E5** license was assigned to **`Jane Smith`** (and **`John Smith`** for testing) to meet the Intune management requirement.
+* **Licensing:** **Microsoft 365 E3** licenses were assigned to **`Jane Smith`** and **`John Smith`** for testing to meet the Intune management requirement.
 * **GPO Timing Fix (Critical):** The **`Always wait for the network at computer startup and logon`** GPO was **Enabled** within the **Default Domain Policy** to prevent GPO failure due to network initialization timing issues.
 
 <img width="1887" height="858" alt="Screenshot 2026-02-14 210341" src="https://github.com/user-attachments/assets/f9031396-852f-40cf-9820-06d032f5430b" />
 
 <img width="1323" height="723" alt="Screenshot 2026-02-14 210551" src="https://github.com/user-attachments/assets/94a0ddfe-a1fd-4255-b047-0f531ff86f1a" />
 
+---
+
+### **11. Group Policy Management: Automatic Intune Enrollment** ☁️
+
+The GPO was configured to initiate the successful automatic enrollment of domain-joined devices into Microsoft Intune.
+
+* **GPO Name:** `Intune Auto Enroll`
+* **GPO Scope:** Linked directly to the **`Devices`** child OU.
+* **Policy Path:** **Computer Configuration** $\rightarrow$ **Policies** $\rightarrow$ **Administrative Templates** $\rightarrow$ **Windows Components** $\rightarrow$ **MDM**
+* **Configuration:** The setting **`Enable automatic MDM enrollment using default Azure AD credentials`** was set to **Enabled** with the credential type set to **`User Credential`**. The **MDM Application ID** was correctly left **blank**.
+
+<img width="1907" height="995" alt="Screenshot 2026-02-15 074816" src="https://github.com/user-attachments/assets/85c91420-2397-4b23-8421-2b29a9f659c1" />
+
+
+---
+
+
+### **12. Verification: Intune Enrollment and Management** ✅
+
+This section confirms the successful automatic enrollment of the client devices into **Microsoft Intune**, completing the Hybrid Entra ID Join (HAADJ) and Intune co-management setup.
+
+* **Intune Enrollment Status:** After a client reboot and user sign-in (using a licensed account like **`John or Jane Smith`**), both **`GF-WINCLIENT1`** and **`GF-WINCLIENT2`** devices successfully completed the MDM auto-enrollment process.
+* **Verification (Client-Side):**
+    * **Access Work or School:** Confirmed the devices show a successful connection to **`GreenfieldAccountancyLtd`**'s work or school account, managed by **Microsoft Intune**.
+    * **Command Prompt:** Running the command `dsregcmd /status` confirms both **`AzureAdJoined: YES`** and **`MdmManaged`** is populated (indicating Intune enrollment).
+
+<img width="1023" height="273" alt="Screenshot 2026-02-15 082108" src="https://github.com/user-attachments/assets/0c486fcd-0cb7-40c7-a071-bf477a1f6c45" />
+<img width="1040" height="282" alt="Screenshot 2026-02-15 082054" src="https://github.com/user-attachments/assets/a9ea6086-097c-4737-8379-6148e143cf23" />
+
+
+
+* **Verification (Intune Portal):**
+    * The devices appeared in the **Microsoft Intune admin center** under **Devices** → **All devices**.
+    * The **Managed by** column is confirmed as **"Intune"**.
+    * The **Primary user** is correctly listed as the signed-in user (**`John Smith`** or **`Jane Smith`**).
+    * The **Compliance** status is **"Compliant"**.
+
+<img width="1903" height="436" alt="Screenshot 2026-02-15 081909" src="https://github.com/user-attachments/assets/449bbb57-0947-410f-8305-506847ce857f" />
+
+<img width="1906" height="464" alt="Screenshot 2026-02-15 081854" src="https://github.com/user-attachments/assets/93cc616b-c775-473f-a9cd-10a6b5d78a30" />
+
+
+---
