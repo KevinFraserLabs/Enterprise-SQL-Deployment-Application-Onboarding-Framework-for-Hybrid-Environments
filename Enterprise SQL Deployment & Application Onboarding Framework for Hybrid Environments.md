@@ -606,38 +606,71 @@ These accounts were created under the Users container in ADUC.
 
 A security group named SQL-Admins was also created to centrally manage access and application assignment. SQLAdmin01 and SQLAdmin02 were added as members of this group.
 
+<img width="1467" height="344" alt="Screenshot 2026-02-15 143926" src="https://github.com/user-attachments/assets/0036518a-3540-4c32-8942-d0bc377ad912" />
+
+<img width="1053" height="213" alt="Screenshot 2026-02-15 143940" src="https://github.com/user-attachments/assets/dfd742b8-e191-49ad-8e05-6f2be812a4f7" />
+
+<img width="845" height="247" alt="Screenshot 2026-02-15 143953" src="https://github.com/user-attachments/assets/20562737-0078-4747-8479-3e658c69df6d" />
 
 
-Synchronising SQL Admin Accounts to Entra ID
+
+**Synchronising SQL Admin Accounts to Entra ID:**
+
 Azure AD Connect was run to synchronise the new accounts and group to Entra ID.
+
 Once the sync completed, the following objects appeared in Entra:
 • 	SQLAdmin01
 • 	SQLAdmin02
 • 	SQL-Admins (Security Group, source: Windows Server AD)
+
 This confirmed that the group could now be used for Intune application assignment.
-(Screenshot: SQLAdmin01 and SQLAdmin02 visible in Entra Users)
-(Screenshot: SQL-Admins group visible in Entra Groups)
 
-Preparing SSMS for Intune Deployment
+<img width="1448" height="588" alt="Screenshot 2026-02-15 144433" src="https://github.com/user-attachments/assets/59f6f6ae-9c5b-4cbb-a295-d7e7300364b8" />
+
+<img width="1800" height="638" alt="Screenshot 2026-02-15 144457" src="https://github.com/user-attachments/assets/c6e4c703-0dc7-4bf7-8b45-f378487a566a" />
+
+
+
+**Preparing SSMS for Intune Deployment.**
+
 All Intune application packaging is stored on GF‑DEPLOY01 under the B: drive, which also hosts PXE and deployment resources.
-A clean folder structure was created to keep Intune application packaging organised:
+A clean folder structure was created to keep Intune and ConfigMgr application packaging organised:
 
-The SSMS installer () was placed in the Source folder.
-(Screenshot: B:\Intune Apps folder structure)
+<img width="1136" height="500" alt="Screenshot 2026-02-15 145411" src="https://github.com/user-attachments/assets/a77e63ed-34e9-43d6-9e9a-9afffbf4797c" />
 
-Packaging SSMS Using the IntuneWinAppUtil Tool
+<img width="1128" height="441" alt="Screenshot 2026-02-15 150152" src="https://github.com/user-attachments/assets/c08971c0-f8c9-4fdf-bbf3-5f4a461f83cd" />
+
+The SSMS installer () was placed in the Intune Apps > Source folder.
+
+```
+B:\Intune Apps\
+    └── SSMS\
+         ├── Source
+         └── Output
+```
+
+
+
+**Packaging SSMS Using the IntuneWinAppUtil Tool.**
+
 To deploy SSMS via Intune, the installer must be converted into a  package.
+
 Using the Microsoft Win32 Content Prep Tool:
 • 	Source folder: 
 • 	Setup file: 
 • 	Output folder: 
 Once the tool completed, the output folder contained:
 
-(Screenshot: IntuneWinAppUtil running with source/setup/output paths)
-(Screenshot: vs_SSMS.intunewin file in Output folder)
+<img width="1750" height="770" alt="Screenshot 2026-02-15 150249" src="https://github.com/user-attachments/assets/d5c3456d-e22b-495d-97a2-0d9f16a61024" />
 
-Uploading SSMS to Intune
+<img width="1146" height="456" alt="Screenshot 2026-02-15 150354" src="https://github.com/user-attachments/assets/0e38e75a-33e6-4f77-84bf-798730d06e31" />
+
+
+
+**Uploading SSMS to Intune:**
+
 With the  package prepared, the next step was to upload and configure the application in Intune.
+
 In the Intune admin center:
 1. 	Navigate to Apps → Windows apps
 2. 	Select Add
@@ -647,9 +680,15 @@ In the Intune admin center:
 6. 	Set detection rules
 7. 	Assign the app to the SQL-Admins group
 This ensures that any user who is a member of SQL-Admins automatically receives SSMS on sign‑in.
-(Screenshot: Intune → Add Windows app (Win32))
 
-Testing Deployment with SQLAdmin01 and SQLAdmin02
+
+
+<img width="1916" height="818" alt="Screenshot 2026-02-15 151859" src="https://github.com/user-attachments/assets/b2153832-8ba0-4e7b-b640-a048202ec2c7" />
+
+
+
+**Testing Deployment with SQLAdmin01 and SQLAdmin02:**
+
 Both SQLAdmin01 and SQLAdmin02 were used to sign into GF‑WINCLIENT02.
 As expected:
 • 	Intune detected group membership
@@ -657,10 +696,7 @@ As expected:
 • 	No manual installation was required
 This validated the deployment workflow and confirmed that the SQL-Admins group assignment was functioning correctly.
 
-Creating SQLAdmin03 for On‑Prem Deployment Testing
-To test an on‑prem deployment method, a third SQL admin account (SQLAdmin03) was created along with a temporary group:
-• 	SQL-Admins GPO Test
-This was originally intended for GPO software deployment, but due to SSMS being an EXE installer (not MSI), the decision was made to abandon GPO and proceed with ConfigMgr for on‑prem deployment instead.
 
-This completes the Intune deployment phase for SSMS.
+***** REMEMBER TO COME BACK TO THIS ONCE APP IS SHOWING KEVIN!! *****
+
 
