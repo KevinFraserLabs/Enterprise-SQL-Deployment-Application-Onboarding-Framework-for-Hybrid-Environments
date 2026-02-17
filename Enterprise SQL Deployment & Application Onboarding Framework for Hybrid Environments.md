@@ -653,7 +653,7 @@ B:\Intune Apps\
 
 **Packaging SSMS Using the IntuneWinAppUtil Tool.**
 
-To deploy SSMS via Intune, the installer must be converted into a  package.
+To deploy SSMS via Intune, the installer must be converted into a package.
 
 Using the Microsoft Win32 Content Prep Tool:
 • 	Source folder: 
@@ -661,15 +661,15 @@ Using the Microsoft Win32 Content Prep Tool:
 • 	Output folder: 
 Once the tool completed, the output folder contained:
 
-<img width="1750" height="770" alt="Screenshot 2026-02-15 150249" src="https://github.com/user-attachments/assets/d5c3456d-e22b-495d-97a2-0d9f16a61024" />
+<img width="1447" height="658" alt="Screenshot 2026-02-17 164931" src="https://github.com/user-attachments/assets/96244b69-e83c-49e7-829c-0a25a0226198" />
 
-<img width="1146" height="456" alt="Screenshot 2026-02-15 150354" src="https://github.com/user-attachments/assets/0e38e75a-33e6-4f77-84bf-798730d06e31" />
+<img width="1058" height="445" alt="Screenshot 2026-02-17 165321" src="https://github.com/user-attachments/assets/86c8c33e-2527-47fd-94c1-60e072247d7c" />
 
 
 
 **Uploading SSMS to Intune:**
 
-With the  package prepared, the next step was to upload and configure the application in Intune.
+With the package prepared, the next step was to upload and configure the application in Intune.
 
 In the Intune admin center:
 1. 	Navigate to Apps → Windows apps
@@ -679,24 +679,33 @@ In the Intune admin center:
 5. 	Configure install/uninstall commands
 6. 	Set detection rules
 7. 	Assign the app to the SQL-Admins group
-This ensures that any user who is a member of SQL-Admins automatically receives SSMS on sign‑in.
+This ensures that any device/user who is a member of SQL-Admins automatically receives SSMS on sign‑in.
+
+
+<img width="1672" height="820" alt="Screenshot 2026-02-17 165547" src="https://github.com/user-attachments/assets/507c8515-a8f0-4856-84df-5bd90f40af52" />
 
 
 
-<img width="1916" height="818" alt="Screenshot 2026-02-15 151859" src="https://github.com/user-attachments/assets/b2153832-8ba0-4e7b-b640-a048202ec2c7" />
+**Confirmation of a successful deployment:**
 
-
-
-**Testing Deployment with SQLAdmin01 and SQLAdmin02:**
-
-Both SQLAdmin01 and SQLAdmin02 were used to sign into GF‑WINCLIENT02.
+I signed into both GF-WINCLIENT1 and GF-WINCLIENT2.
 As expected:
 • 	Intune detected group membership
 • 	SSMS installed automatically
 • 	No manual installation was required
-This validated the deployment workflow and confirmed that the SQL-Admins group assignment was functioning correctly.
+This validated the deployment workflow and confirmed that the Intune Win32 app deployment was functioning correctly.
+
+<img width="1715" height="852" alt="Screenshot 2026-02-17 165600" src="https://github.com/user-attachments/assets/28cd8b79-d2a2-4a53-b0a4-d2dbe0a710cd" />
+
+<img width="1700" height="644" alt="Screenshot 2026-02-17 165618" src="https://github.com/user-attachments/assets/278aa78f-4907-42f1-b2a0-b613c6cbb0ee" />
+
+<img width="1842" height="693" alt="Screenshot 2026-02-17 165630" src="https://github.com/user-attachments/assets/3a04b911-ec81-48e4-a78b-653c606cf6d3" />
+
+<img width="1894" height="787" alt="Screenshot 2026-02-17 170103" src="https://github.com/user-attachments/assets/e7155da7-6261-4258-a912-dab333eb51c6" />
+
+<img width="1835" height="862" alt="Screenshot 2026-02-17 170206" src="https://github.com/user-attachments/assets/863596fc-a525-4aab-b888-4cb8bed3dc64" />
 
 
-***** REMEMBER TO COME BACK TO THIS ONCE APP IS SHOWING KEVIN!! *****
+---
 
 
