@@ -798,8 +798,8 @@ To align with real‑world enterprise deployments, the following inbound rules w
 
 Required ConfigMgr Ports:
 
-80 - TCP
-443 - TCP
+`80 - TCP`
+`443 - TCP`
 
 These rules ensure that:
 
@@ -823,7 +823,9 @@ With the firewall configured, GF‑DEPLOY01 was fully prepared for the ConfigMgr
 **SQL Server Configuration (GF‑SQL01):**
 
 ConfigMgr relies heavily on SQL Server, so GF‑SQL01 was configured to meet all requirements.
+
 The following settings were applied:
+
 - TCP/IP enabled for remote connectivity
 - SQL memory limits adjusted to prevent resource exhaustion
 - Correct collation (SQL_Latin1_General_CP1_CI_AS) verified
@@ -845,7 +847,7 @@ These settings ensure SQL is fully compatible with ConfigMgr.
 **Active Directory Integration:**
 
 The AD schema was extended using the ConfigMgr setup files.
-After this, the System Management container was created under CN=System and delegated to GF‑DEPLOY01.
+After this, the System Management container was created under `CN=System` and delegated to `GF‑DEPLOY01`.
 This allows ConfigMgr to publish site information into Active Directory.
 
 
@@ -863,14 +865,14 @@ This allows ConfigMgr to publish site information into Active Directory.
 
 With prerequisites complete, the ConfigMgr setup wizard was launched on GF‑DEPLOY01.
 The following configuration was applied:
-- Site Type: Primary Site
-- Site Code: GAL
-- Site Name: Greenfield
-- SQL Server: GF‑SQL01
-- Database: CM_GAL
-- Install Directory: E:\SCCM 
-- Management Point: GF‑DEPLOY01
-- Distribution Point: GF‑DEPLOY01
+- Site Type: `Primary Site`
+- Site Code: `GAL`
+- Site Name: `Greenfield`
+- SQL Server: `GF‑SQL01`
+- Database: `CM_GAL`
+- Install Directory: `E:\SCCM `
+- Management Point: `GF‑DEPLOY01`
+- Distribution Point: `GF‑DEPLOY01`
 
 
 <img width="744" height="558" alt="Screenshot 2026-02-17 230057" src="https://github.com/user-attachments/assets/7c6b8951-19be-48fd-85f8-7343cf77b88b" />
@@ -883,7 +885,7 @@ After installation, the following checks were performed to confirm the GAL site 
 **Site Configuration**
 
 ConfigMgr Console → Administration → Site Configuration → Sites
-(Showing Site Code GAL, Site Name Greenfield, Server GF‑DEPLOY01)
+(Showing Site Code GAL, Site Name Greenfield, Server GF‑DEPLOY01
 
 <img width="1498" height="541" alt="Screenshot 2026-02-19 144449" src="https://github.com/user-attachments/assets/0215a856-5157-4eb9-9498-8466d841381b" />
 
@@ -919,14 +921,16 @@ These checks confirm the core site roles are functioning correctly.
 
 ConfigMgr automatically creates several system‑critical directories at the root of the deployment drive (B:).
 These folders are required for the Distribution Point and Content Library and must remain at the root.
+
 The following folders were created:
-- SCCMContentLib
-- SMSPKG
-- SMSPKGB$
-- SMSPKGSIG
-- SMSSIGS
-- SMS_DPS
-- The ConfigMgr installation directory
+
+- `SCCMContentLib`
+- `SMSPKG`
+- `SMSPKGB$`
+- `SMSPKGSIG`
+- `SMSSIGS`
+- `SMS_DPS`
+- The `ConfigMgr` installation directory
 
 
 E: Install
@@ -948,7 +952,8 @@ A boundary was created to define the Greenfield network space, and a Boundary Gr
 **Application Deployment Validation (Software Center Test):**
 
 After confirming that the Management Point, Distribution Point, boundaries, and client assignment were all healthy, a test application deployment was performed to validate end‑to‑end functionality.
-Software Center was installed on GF‑WINCLIENT1 and GF‑WINCLIENT2, and VLC Media Player was deployed using the official MSI installer.
+
+Software Center was installed on `GF‑WINCLIENT1` and `GF‑WINCLIENT2`, and `VLC Media Player` was deployed using the official MSI installer.
 
 The application appeared in Software Center on both clients and installed successfully.
 
@@ -984,7 +989,7 @@ I developed a small .NET 10 console application named Greenfield Dummy App.
 
 The purpose of this application is intentionally narrow and controlled: it executes a single predefined SQL query against the app.Customers table to confirm that:
 
-- The client can reach GF‑SQL01
+- The client can reach `GF‑SQL01`
 - Windows authentication is functioning
 - The logged‑in domain user has the correct SQL permissions
 - The database and schema are accessible
@@ -1030,7 +1035,7 @@ Deployment steps included:
 - Configuring the install command to copy the application into: ```C:\Program Files\GreenfieldApp```
 - Creating a file‑based detection rule targeting GreenfieldApp.exe
 - Distributing the content to the Distribution Point
-- Deploying the application to the test device collection containing GF‑WINCLIENT01
+- Deploying the application to the test device collection containing `GF‑WINCLIENT01`
 
 Because the application targets .NET 10, the .NET Desktop Runtime 10 was also installed on the client to ensure compatibility.
 Once deployed, the application appeared in Software Center and installed successfully.
@@ -1075,7 +1080,7 @@ With deployment and permissions complete, I launched the application from:
 
 The application successfully:
 
-- Connected to GF‑SQL01
+- Connected to `GF‑SQL01`
 - Authenticated using the logged‑in Windows identity
 - Executed the predefined SELECT query
 - Returned the expected dummy customer records seeded during database creation
@@ -1102,3 +1107,127 @@ By returning the predefined dataset, it validated:
 This completes the SQL connectivity validation phase and confirms that the Greenfield Accountancy environment is fully integrated end‑to‑end.
 
 
+
+###22. Final Summary & Outcomes: 🏁📘
+
+The Greenfield Accountancy hybrid environment project successfully delivered a fully integrated, enterprise‑grade infrastructure that mirrors real‑world onboarding, identity, deployment, and application delivery workflows. This environment was built from the ground up using industry‑standard technologies, including Active Directory, Microsoft Entra ID, Intune, SQL Server, and Microsoft Endpoint Configuration Manager (ConfigMgr), and demonstrates a complete end‑to‑end lifecycle for device provisioning, identity synchronization, application deployment, and backend system integration.
+
+
+**End‑to‑End Infrastructure Achievements**
+
+
+**On‑Premises Core Services**
+
+A complete on‑premises foundation was deployed, including:
+
+- Windows Server 2022 Domain Controller
+- DNS, DHCP, and AD DS
+- WDS for automated Windows 11 deployment
+- A structured OU hierarchy for users and devices
+- Group Policy for desktop standardisation and security
+
+This provided a stable, enterprise‑aligned base for hybrid identity and device management.
+
+
+**Hybrid Identity Integration**
+
+Microsoft Entra Connect was deployed to synchronize on‑premises identities and devices to the cloud, enabling:
+
+- Password Hash Synchronization
+- Hybrid Entra ID Join
+- Group Writeback
+- Automatic Intune enrollment
+
+This created a seamless hybrid identity model consistent with modern enterprise environments.
+
+
+**Intune Device Management**
+
+Intune was configured to manage domain‑joined Windows 11 clients, providing:
+
+- Automatic MDM enrollment
+- Compliance evaluation
+- Application deployment
+- Device visibility and reporting
+
+This validated the full hybrid management lifecycle.
+
+
+**SQL Server Deployment & Application Backend**
+
+A dedicated SQL Server 2022 instance was deployed on GF‑SQL01, including:
+
+- Database Engine configuration
+- Mixed‑mode authentication
+- Firewall hardening
+- SSMS installation
+- Creation of the GreenfieldDB database
+- Application schema, tables, and sample data
+
+This provided a realistic backend for application testing and onboarding workflows.
+
+
+**ConfigMgr Deployment & Application Delivery**
+
+Microsoft Endpoint Configuration Manager was installed on GF‑DEPLOY01, with:
+
+- Primary Site (GAL)
+- Management Point
+- Distribution Point
+- Boundaries and Boundary Groups
+- Content Library configuration
+- MSI‑based application deployment validation
+
+This enabled enterprise‑grade Win32 application deployment and lifecycle management.
+
+
+**Custom .NET Application Integration**
+
+A lightweight .NET 10 console application was developed to validate SQL connectivity using:
+
+- Windows Integrated Authentication
+- Predefined SQL queries
+- Controlled, non‑interactive execution
+- Deployment via ConfigMgr
+- SQL permissions configured for domain users
+
+This confirmed end‑to‑end integration between:
+
+- Domain identity
+- Device management
+- SQL Server
+- Application deployment
+- Network connectivity
+- Permissions and access control
+
+
+
+**Skills Demonstrated**
+
+This project demonstrates hands‑on capability across a wide range of enterprise technologies:
+
+- Active Directory architecture & administration
+- Hybrid identity (Entra Connect, HAADJ)
+- Intune MDM & Win32 app deployment
+- ConfigMgr installation, configuration, and application delivery
+- SQL Server installation, configuration, and database design
+- Firewall and network configuration
+- Automated OS deployment (WDS)
+- .NET application development and SQL integration
+- End‑to‑end troubleshooting and validation
+- Enterprise documentation and workflow design
+
+
+**Project Outcome**
+
+The Greenfield Accountancy environment now represents a fully functional, production‑aligned hybrid infrastructure capable of:
+
+- Deploying Windows devices automatically
+- Synchronizing identities between on‑prem and cloud
+- Managing devices through Intune and ConfigMgr
+- Hosting enterprise SQL workloads
+- Delivering applications through modern and traditional channels
+- Validating backend connectivity through a custom application
+- Demonstrating real‑world onboarding workflows from start to finish
+
+This project showcases a complete, modern IT ecosystem — designed, deployed, validated, and documented to professional standards.
