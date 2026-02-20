@@ -1116,7 +1116,7 @@ The Greenfield Accountancy hybrid environment project successfully delivered a f
 **End‑to‑End Infrastructure Achievements**
 
 
-**On‑Premises Core Services**
+**On‑Premises Core Services:**
 
 A complete on‑premises foundation was deployed, including:
 
@@ -1129,7 +1129,7 @@ A complete on‑premises foundation was deployed, including:
 This provided a stable, enterprise‑aligned base for hybrid identity and device management.
 
 
-**Hybrid Identity Integration**
+**Hybrid Identity Integration:**
 
 Microsoft Entra Connect was deployed to synchronize on‑premises identities and devices to the cloud, enabling:
 
@@ -1141,7 +1141,7 @@ Microsoft Entra Connect was deployed to synchronize on‑premises identities and
 This created a seamless hybrid identity model consistent with modern enterprise environments.
 
 
-**Intune Device Management**
+**Intune Device Management:**
 
 Intune was configured to manage domain‑joined Windows 11 clients, providing:
 
@@ -1153,7 +1153,7 @@ Intune was configured to manage domain‑joined Windows 11 clients, providing:
 This validated the full hybrid management lifecycle.
 
 
-**SQL Server Deployment & Application Backend**
+**SQL Server Deployment & Application Backend:**
 
 A dedicated SQL Server 2022 instance was deployed on GF‑SQL01, including:
 
@@ -1167,7 +1167,7 @@ A dedicated SQL Server 2022 instance was deployed on GF‑SQL01, including:
 This provided a realistic backend for application testing and onboarding workflows.
 
 
-**ConfigMgr Deployment & Application Delivery**
+**ConfigMgr Deployment & Application Delivery:**
 
 Microsoft Endpoint Configuration Manager was installed on GF‑DEPLOY01, with:
 
@@ -1181,7 +1181,7 @@ Microsoft Endpoint Configuration Manager was installed on GF‑DEPLOY01, with:
 This enabled enterprise‑grade Win32 application deployment and lifecycle management.
 
 
-**Custom .NET Application Integration**
+**Custom .NET Application Integration:**
 
 A lightweight .NET 10 console application was developed to validate SQL connectivity using:
 
@@ -1202,7 +1202,7 @@ This confirmed end‑to‑end integration between:
 
 
 
-**Skills Demonstrated**
+**Skills Demonstrated:**
 
 This project demonstrates hands‑on capability across a wide range of enterprise technologies:
 
@@ -1218,7 +1218,7 @@ This project demonstrates hands‑on capability across a wide range of enterpris
 - Enterprise documentation and workflow design
 
 
-**Project Outcome**
+**Project Outcome: 🎉🎉🎉🎉 **
 
 The Greenfield Accountancy environment now represents a fully functional, production‑aligned hybrid infrastructure capable of:
 
