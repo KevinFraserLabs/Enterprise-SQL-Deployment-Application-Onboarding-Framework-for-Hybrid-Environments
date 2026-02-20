@@ -973,6 +973,7 @@ This validated that the ConfigMgr environment is functioning as intended.
 
 
 With SQL Server fully deployed and the GreenfieldDB schema in place, the next step was to validate that a domain‑joined client could authenticate to the database using Windows Integrated Authentication.
+
 To achieve this, I created a lightweight .NET console application designed specifically for connectivity testing within the Greenfield Accountancy environment.
 
 
@@ -982,6 +983,7 @@ To achieve this, I created a lightweight .NET console application designed speci
 I developed a small .NET 10 console application named Greenfield Dummy App.
 
 The purpose of this application is intentionally narrow and controlled: it executes a single predefined SQL query against the app.Customers table to confirm that:
+
 - The client can reach GF‑SQL01
 - Windows authentication is functioning
 - The logged‑in domain user has the correct SQL permissions
@@ -1005,10 +1007,11 @@ This design ensures predictable, repeatable validation aligned with real‑world
 
 
 Once compiled, the application produced the following output files:
-- GreenfieldApp.exe
-- GreenfieldApp.dll
-- GreenfieldApp.runtimeconfig.json
-- GreenfieldApp.deps.json
+
+- `GreenfieldApp.exe`
+- `GreenfieldApp.dll`
+- `GreenfieldApp.runtimeconfig.json`
+- `GreenfieldApp.deps.json`
 
 These were published into a dedicated application source folder for deployment.
 
@@ -1021,10 +1024,10 @@ These were published into a dedicated application source folder for deployment.
 To mirror enterprise deployment practices, the application was packaged and deployed using Microsoft Endpoint Configuration Manager.
 
 Deployment steps included:
+
 - Creating a new Application in ConfigMgr
 - Adding a Deployment Type pointing to the published source folder
-- Configuring the install command to copy the application into:
-C:\Program Files\GreenfieldApp
+- Configuring the install command to copy the application into: ```C:\Program Files\GreenfieldApp```
 - Creating a file‑based detection rule targeting GreenfieldApp.exe
 - Distributing the content to the Distribution Point
 - Deploying the application to the test device collection containing GF‑WINCLIENT01
@@ -1048,12 +1051,13 @@ Once deployed, the application appeared in Software Center and installed success
 
 
 Since the application uses Integrated Security, SQL Server authenticates the currently logged‑in Windows user.
-For this test, the user logged into GF‑WINCLIENT01 was:
-GREENFIELDACCOU\JaneSmith
+For this test, the user logged into GF‑WINCLIENT01 was: `GREENFIELDACCOU\JaneSmith`
 
 
 To allow the application to run its predefined query, I added this user as a Windows login in SQL Server and mapped it to the GreenfieldDB database with the following role:
-- db_datareader
+
+- `db_datareader`
+
 This provides read‑only access to the app.Customers table, which is sufficient for connectivity validation.
 
 
@@ -1065,14 +1069,17 @@ This provides read‑only access to the app.Customers table, which is sufficient
 
 
 With deployment and permissions complete, I launched the application from:
-C:\Program Files\GreenfieldApp\GreenfieldApp.exe
+
+```C:\Program Files\GreenfieldApp\GreenfieldApp.exe```
 
 
 The application successfully:
+
 - Connected to GF‑SQL01
 - Authenticated using the logged‑in Windows identity
 - Executed the predefined SELECT query
 - Returned the expected dummy customer records seeded during database creation
+
 This confirmed that SQL connectivity, authentication, permissions, and application deployment were all functioning correctly.
 
 
@@ -1084,6 +1091,7 @@ This confirmed that SQL connectivity, authentication, permissions, and applicati
 
 The Greenfield Dummy App performed exactly as intended.
 By returning the predefined dataset, it validated:
+
 - Network reachability
 - SQL Server availability
 - Correct domain authentication
